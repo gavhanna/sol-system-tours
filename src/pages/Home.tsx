@@ -20,6 +20,8 @@ import {
   DescriptionList,
   Visualiser,
   FactList,
+  DashboardGroup,
+  Screen,
 } from "../components";
 
 const Home = () => {
@@ -107,7 +109,7 @@ const Home = () => {
   return (
     <main>
       <h1 className="text-5xl">Sol System Trip Planner</h1>
-      <section className="my-10">
+      {/* <section className="my-10">
         <Visualiser
           toPlanet={toPlanet}
           fromPlanet={fromPlanet}
@@ -115,47 +117,76 @@ const Home = () => {
           setToPlanet={setToPlanet}
           setFromPlanet={setFromPlanet}
         />
+      </section> */}
+      {/* <section>
+        <DashboardGroup>
+          <RadioGroup
+            title="Travel method"
+            options={organiseTravelSpeedsForRadioGroup()}
+            selectedOption={selectedSpeed}
+            setSelectedOption={setSelectedSpeed}
+            type="light-strip"
+          />
+        </DashboardGroup>
+      </section> */}
+      <section>
+        <Screen>
+          <DescriptionList
+            title={`Travel time from ${fromPlanet} to ${toPlanet}`}
+            description={`Around ${new Intl.NumberFormat("en-US").format(
+              getDistanceBetweenAnyTwoPlanets(fromPlanet, toPlanet).KM
+            )} km at about ${selectedSpeed} kilometers per hour`}
+            items={getDescriptionListItems()}
+          />
+        </Screen>
       </section>
       <section className="flex gap-3 justify-between">
-        <RadioGroup
-          title="From"
-          options={organisePlanetsForRadioGroup(PLANETS_ARRAY)}
-          selectedOption={fromPlanet}
-          setSelectedOption={setFromPlanet}
-          disabledItems={[toPlanet]}
-          baseColor="lime"
-        />
-        <RadioGroup
-          title="To"
-          options={organisePlanetsForRadioGroup(PLANETS_ARRAY)}
-          selectedOption={toPlanet}
-          setSelectedOption={setToPlanet}
-          disabledItems={[fromPlanet]}
-          baseColor="pink"
-        />
-        {selectedSpeed !== 0 && (
-          <div className="grow">
-            <DescriptionList
-              title={`Travel time from ${fromPlanet} to ${toPlanet}`}
-              description={`Around ${new Intl.NumberFormat("en-US").format(
-                getDistanceBetweenAnyTwoPlanets(fromPlanet, toPlanet).KM
-              )} km at about ${selectedSpeed} kilometers per hour`}
-              items={getDescriptionListItems()}
-            />
-          </div>
-        )}
-        <RadioGroup
-          title="Travel method"
-          options={organiseTravelSpeedsForRadioGroup()}
-          selectedOption={selectedSpeed}
-          setSelectedOption={setSelectedSpeed}
-        />
+        <DashboardGroup>
+          <RadioGroup
+            title="Depart"
+            options={organisePlanetsForRadioGroup(PLANETS_ARRAY)}
+            selectedOption={fromPlanet}
+            setSelectedOption={setFromPlanet}
+            disabledItems={[toPlanet]}
+            baseColor="lime"
+          />
+          <RadioGroup
+            title="Arrive"
+            options={organisePlanetsForRadioGroup(PLANETS_ARRAY)}
+            selectedOption={toPlanet}
+            setSelectedOption={setToPlanet}
+            disabledItems={[fromPlanet]}
+            baseColor="pink"
+          />
+        </DashboardGroup>
+        <DashboardGroup>
+          <RadioGroup
+            title="Travel method"
+            options={organiseTravelSpeedsForRadioGroup()}
+            selectedOption={selectedSpeed}
+            setSelectedOption={setSelectedSpeed}
+            type="digital-muted"
+          />
+        </DashboardGroup>
       </section>
+      {/* <section>
+        <DashboardGroup>
+          <RadioGroup
+            title="Travel method"
+            options={organiseTravelSpeedsForRadioGroup()}
+            selectedOption={selectedSpeed}
+            setSelectedOption={setSelectedSpeed}
+            type="light-strip"
+          />
+        </DashboardGroup>
+      </section> */}
 
       <section className="my-10 flex just-between">
         <div className="flex-1">
           {<FactList facts={FACTS[getSelectedPlanetsInOrder()[0]]} />}
         </div>
+      </section>
+      <section className="my-10 flex just-between">
         <div className="flex-1">
           {<FactList facts={FACTS[getSelectedPlanetsInOrder()[1]]} />}
         </div>

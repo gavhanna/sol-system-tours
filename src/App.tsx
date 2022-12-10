@@ -1,8 +1,10 @@
 import Home from "./pages/Home";
+import styles from "./App.module.scss";
+import cx from "classnames";
 
 function App() {
   return (
-    <div className="p-5 mx-auto max-w-7xl">
+    <div className={cx("p-5 mx-auto max-w-7xl", styles.app)}>
       <Home />
     </div>
   );

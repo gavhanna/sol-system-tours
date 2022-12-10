@@ -1,0 +1,14 @@
+.numeric-value {
+  overflow: hidden;
+  letter-spacing: 0.13em;
+  animation: typing 1.5s steps(30, end);
+}
+
+@keyframes typing {
+  from {
+    width: 0;
+  }
+  to {
+    width: 50%;
+  }
+}

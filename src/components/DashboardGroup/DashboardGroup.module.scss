@@ -1,0 +1,10 @@
+.dashboardGroup {
+  --border-width: 0.25rem;
+  background-color: #313131;
+  border-radius: var(--border-width);
+  border: var(--border-width) solid #4c4c4c;
+  padding: calc(var(--border-width) * 3);
+  display: flex;
+  gap: 1rem;
+  position: relative;
+}

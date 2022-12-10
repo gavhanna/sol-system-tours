@@ -1,0 +1,194 @@
+.radioGroup {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.75rem;
+  // flex-wrap: wrap;
+  // width: max-content;
+  flex-wrap: wrap;
+
+  &.light-strip {
+    flex-direction: row;
+    align-items: center;
+  }
+}
+
+.button {
+  --btn-width: 1.75em;
+  --btn-height: 1.75em;
+
+  display: flex;
+  align-items: center;
+  width: 100%;
+  font-size: 0.75rem;
+  width: max-content;
+  color: #2b2b2b;
+
+  span {
+    width: var(--btn-width);
+    height: var(--btn-height);
+    border: calc(var(--btn-width) / 10) solid #b7b8bc;
+    background-color: #e1e4f0;
+    display: inline-block;
+    margin-right: 0.5rem;
+    outline: calc(var(--btn-width) / 10) solid #2b2b2b;
+  }
+
+  &:active span {
+    border-width: calc(var(--btn-width) / 10 + 1px);
+  }
+
+  &.active span {
+    background-color: #f8b540;
+    border-color: #f47331;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &::after {
+      content: "";
+      width: 0.5rem;
+      height: 0.5rem;
+      background-color: #ffe175;
+      display: inline-block;
+      border: calc(var(--btn-width) / 10) solid #f9c543;
+      filter: blur(0.2rem);
+      box-shadow: 0 0 0.5rem 0.2rem #f9c543;
+    }
+  }
+
+  label {
+    cursor: inherit;
+    background-color: #ede6ac;
+    outline: calc(var(--btn-width) / 10) solid #2b2b2b;
+    font-family: monospace;
+    padding-inline: 0.25rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    flex-grow: 1;
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+
+    label {
+      background-color: #bdb768;
+      text-decoration: line-through;
+    }
+
+    span {
+      border-color: #8d8c8c;
+      background-color: #bdbec2;
+    }
+  }
+
+  &.digital-muted {
+    span {
+      background-color: #9f927f;
+      border-color: #756f63;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      &::after {
+        content: "";
+        width: calc(var(--btn-width) / 5);
+        height: calc(var(--btn-width) / 5);
+        background-color: #3a3a3a;
+        border-radius: 50%;
+        display: inline-block;
+      }
+    }
+
+    &.active {
+      span {
+        // background-color: #f8b540;
+        // border-color: #f47331;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        &::after {
+          content: "";
+          width: calc(var(--btn-width) / 2.5);
+          height: calc(var(--btn-width) / 2.5);
+          background-color: #ffe175;
+          border-radius: 50%;
+          box-shadow: 0 0 0.5rem 0.2rem #f9c543;
+          // display: inline-block;
+          filter: blur(0);
+        }
+      }
+    }
+  }
+
+  &.light-strip {
+    --light-width: 4rem;
+    --light-height: calc(var(--light-width) / 8);
+    --btn-width: var(--light-width);
+    --btn-height: calc(var(--light-width) / 2);
+
+    flex-direction: column;
+    align-items: start;
+    position: relative;
+
+    &:before {
+      content: "";
+      display: inline-block;
+      height: var(--light-height);
+      width: var(--light-width);
+      border-inline: calc(var(--btn-width) / 5) solid #454545;
+      background-color: #454545;
+      outline: inset calc(var(--btn-width) / 5) solid #454545;
+      margin-bottom: calc(var(--btn-width) / 5);
+    }
+
+    span {
+      border: calc(var(--btn-width) / 15) solid #b7b8bc;
+      background-color: #e1e4f0;
+      display: inline-block;
+      margin-right: 0.5rem;
+      outline: calc(var(--btn-width) / 15) solid #2b2b2b;
+      margin-right: unset;
+
+      &::after {
+        display: none;
+      }
+    }
+
+    &:active span {
+      border-width: calc(var(--btn-width) / 15 + 1px);
+    }
+
+    label {
+      outline: unset;
+      background-color: unset;
+      color: #737373;
+      font-size: 1rem;
+      padding-inline: 0;
+      margin: 0 auto;
+    }
+
+    &.active {
+      &:before {
+        content: "";
+        display: inline-block;
+        height: var(--light-height);
+        width: var(--light-width);
+        border-inline: calc(var(--light-width) / 6) solid #fd2116;
+        background-color: #fe836c;
+      }
+
+      &::after {
+        content: "";
+        display: inline-block;
+        height: var(--light-height);
+        width: calc(var(--light-width) / 4);
+        background-color: #f1cbcb;
+        position: absolute;
+        left: calc(var(--light-width) / 2.75);
+        box-shadow: 0 0 0.6rem 0.05rem #fff;
+      }
+    }
+  }
+}
