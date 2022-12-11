@@ -1,5 +1,6 @@
 import React from "react";
-// use tailwind
+import styles from "./DescriptionList.module.scss";
+import cx from "classnames";
 
 const DescriptionList = ({
   title,
@@ -10,17 +11,32 @@ const DescriptionList = ({
   description: string;
   items: { label: string; value: string }[];
 }) => {
+  // create function to type in string or number one character at a time
+  const typeIn = (text: string) => {
+    let i = 0;
+    const interval = setInterval(() => {
+      if (i < text.length) {
+        console.log(text[i]);
+        i++;
+      } else {
+        clearInterval(interval);
+      }
+    }, 100);
+  };
+
   return (
     <>
       <h2 className="text-xl font-semibold">{title}</h2>
       <p className="text-sm">{description}</p>
-      <div className="flex flex-col gap-2 bg-blue-50 p-5 rounded">
+      <div className="flex flex-col gap-2">
         <div className="flex flex-col gap-2">
           {items.map((item) => (
-            <div key={item.label} className="flex flex-row gap-2">
-              <div className="w-1/3 text-5xl">{item.label}</div>
-              <div className="w-2/3 text-5xl font-bold">{item.value}</div>
-            </div>
+            <dl key={item.value} className="flex">
+              <dt className="text-xl w-24">{item.label}</dt>
+              <dd className={cx("text-xl font-bold", styles["numeric-value"])}>
+                {item.value}
+              </dd>
+            </dl>
           ))}
         </div>
       </div>
