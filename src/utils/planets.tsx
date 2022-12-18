@@ -1,3 +1,12 @@
+import {
+  FaBicycle,
+  FaCar,
+  FaLightbulb,
+  FaPlane,
+  FaSpaceShuttle,
+  FaWalking,
+} from "react-icons/fa";
+
 const PLANETS = {
   MERCURY: "Mercury",
   VENUS: "Venus",
@@ -168,13 +177,31 @@ const DISTANCES = {
   },
 };
 
-const AVERAGE_TRAVEL_SPEEDS = {
-  WALK: 5,
-  CYCLE: 20,
-  DRIVE: 80,
-  FLY: 900,
-  VOYAGER1: 17_000,
-  LIGHT: 1_079_252_849,
+const TRAVEL_METHODS = {
+  WALK: {
+    SPEED: 5,
+    ICON: <FaWalking />,
+  },
+  CYCLE: {
+    SPEED: 20,
+    ICON: <FaBicycle />,
+  },
+  DRIVE: {
+    SPEED: 80,
+    ICON: <FaCar />,
+  },
+  FLY: {
+    SPEED: 900,
+    ICON: <FaPlane />,
+  },
+  VOYAGER1: {
+    SPEED: 17_000,
+    ICON: <FaSpaceShuttle />,
+  },
+  LIGHT: {
+    SPEED: 1_079_252_849,
+    ICON: <FaLightbulb />,
+  },
 };
 
 const FACTS = {
@@ -249,7 +276,7 @@ const getTravelTime = (planet1: string, planet2: string, speed: number) => {
   const travelTime = planet1ToPlanet2.KM / speed;
 
   return {
-    hours: travelTime,
+    hours: travelTime > 1000 ? Math.round(travelTime) : travelTime,
     days: Math.round(travelTime / 24),
     weeks: Math.round(travelTime / 24 / 7),
     months: Math.round((travelTime / 24 / 7 / 30) * 100) / 100,
@@ -261,7 +288,7 @@ export {
   PLANETS,
   PLANETS_ARRAY,
   DISTANCES,
-  AVERAGE_TRAVEL_SPEEDS,
+  TRAVEL_METHODS,
   getDistanceBetweenAnyTwoPlanets,
   getTravelTime,
   FACTS,

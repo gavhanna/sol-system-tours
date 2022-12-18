@@ -1,0 +1,34 @@
+@import url("https://fonts.googleapis.com/css2?family=Space+Mono&display=swap");
+
+:root {
+  --color-primary: #14fcfe;
+  --color-secondary: #fa8322;
+  --color-tertiary: #20745f;
+  --app-background: linear-gradient(180deg, #161e1c 0%, #161e1c 51.56%);
+  --border-color: #263431;
+  --font-primary: azure;
+  --font-secondary: #6cd0b8;
+  --dropdown-bg-color: #161e1c;
+
+  --btn-text-transform: uppercase;
+  --btn-border: 2px solid var(--color-primary);
+  --btn-padding: 0.25rem 0.5rem;
+  --btn-background-color: transparent;
+}
+
+body {
+  background: var(--app-background);
+  color: var(--font-primary);
+}
+
+.app {
+  font-family: "Space Mono", monospace;
+}
+
+.color-primary {
+  color: var(--color-primary);
+}
+
+.color-secondary {
+  color: var(--color-secondary);
+}

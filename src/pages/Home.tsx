@@ -4,32 +4,21 @@ import {
   PLANETS_ARRAY,
   getDistanceBetweenAnyTwoPlanets,
   getTravelTime,
-  AVERAGE_TRAVEL_SPEEDS,
+  TRAVEL_METHODS,
   FACTS,
 } from "../utils/planets";
 import {
-  FaBicycle,
-  FaCar,
-  FaLightbulb,
-  FaPlane,
-  FaSpaceShuttle,
-  FaWalking,
-} from "react-icons/fa";
-import {
   RadioGroup,
   DescriptionList,
+  Dropdown,
+  Card,
   Visualiser,
-  FactList,
-  DashboardGroup,
-  Screen,
 } from "../components";
 
 const Home = () => {
   const [fromPlanet, setFromPlanet] = useState(PLANETS.MERCURY);
   const [toPlanet, setToPlanet] = useState(PLANETS.VENUS);
-  const [selectedSpeed, setSelectedSpeed] = useState(
-    AVERAGE_TRAVEL_SPEEDS.WALK
-  );
+  const [selectedSpeed, setSelectedSpeed] = useState(TRAVEL_METHODS.WALK.SPEED);
 
   const formatTravelTime = (
     travelMethod: "hours" | "days" | "weeks" | "months" | "years"
@@ -39,39 +28,18 @@ const Home = () => {
     }).format(getTravelTime(fromPlanet, toPlanet, selectedSpeed)[travelMethod]);
   };
 
-  const getTransportIcon = (speed: number) => {
-    switch (speed) {
-      case AVERAGE_TRAVEL_SPEEDS.WALK:
-        return <FaWalking />;
-      case AVERAGE_TRAVEL_SPEEDS.CYCLE:
-        return <FaBicycle />;
-      case AVERAGE_TRAVEL_SPEEDS.DRIVE:
-        return <FaCar />;
-      case AVERAGE_TRAVEL_SPEEDS.FLY:
-        return <FaPlane />;
-      case AVERAGE_TRAVEL_SPEEDS.VOYAGER1:
-        return <FaSpaceShuttle />;
-      case AVERAGE_TRAVEL_SPEEDS.LIGHT:
-        return <FaLightbulb />;
-      default:
-        return <FaWalking />;
-    }
-  };
-
-  const organisePlanetsForRadioGroup = (planets: string[]) => {
-    return planets.map((planet) => ({
+  const organisePlanetsForRadioGroup = () => {
+    return PLANETS_ARRAY.map((planet) => ({
       label: planet,
       value: planet,
     }));
   };
 
   const organiseTravelSpeedsForRadioGroup = () => {
-    return Object.keys(AVERAGE_TRAVEL_SPEEDS).map((speed) => ({
-      label: speed,
-      value: AVERAGE_TRAVEL_SPEEDS[speed as keyof typeof AVERAGE_TRAVEL_SPEEDS],
-      icon: getTransportIcon(
-        AVERAGE_TRAVEL_SPEEDS[speed as keyof typeof AVERAGE_TRAVEL_SPEEDS]
-      ),
+    return Object.entries(TRAVEL_METHODS).map((entry) => ({
+      label: entry[0],
+      value: entry[1].SPEED,
+      icon: entry[1].ICON,
     }));
   };
 
@@ -106,90 +74,54 @@ const Home = () => {
     },
   ];
 
+  const getTravelMethodFromSpeed = (speed: number) => {
+    return Object.entries(TRAVEL_METHODS).find(
+      (entry) => entry[1].SPEED === speed
+    )?.[0];
+  };
+
   return (
     <main>
-      <h1 className="text-5xl">Sol System Trip Planner</h1>
-      {/* <section className="my-10">
-        <Visualiser
-          toPlanet={toPlanet}
-          fromPlanet={fromPlanet}
-          selectedSpeed={selectedSpeed}
-          setToPlanet={setToPlanet}
-          setFromPlanet={setFromPlanet}
+      <h1 className="mb-3">SOL SYSTEM TRIP PLANNER</h1>
+      <Card className="mb-3">
+        <DescriptionList
+          items={getDescriptionListItems()}
+          title={`${fromPlanet.toLocaleUpperCase()} TO ${toPlanet.toLocaleUpperCase()}`}
+          description={`${getTravelMethodFromSpeed(
+            selectedSpeed
+          )} speed: ${selectedSpeed} km/h`}
         />
-      </section> */}
-      {/* <section>
-        <DashboardGroup>
-          <RadioGroup
-            title="Travel method"
-            options={organiseTravelSpeedsForRadioGroup()}
-            selectedOption={selectedSpeed}
-            setSelectedOption={setSelectedSpeed}
-            type="light-strip"
-          />
-        </DashboardGroup>
-      </section> */}
+      </Card>
+      <section className="mb-3">
+        <h2>TRAVEL METHOD</h2>
+        <RadioGroup
+          options={organiseTravelSpeedsForRadioGroup()}
+          selectedOption={selectedSpeed}
+          setSelectedOption={setSelectedSpeed}
+        />
+      </section>
+      <h2 className="flex justify-between">
+        <span>DEPART</span>
+        <span>ARRIVE</span>
+      </h2>
+      <section className="flex mb-10 justify-between content-center">
+        <Dropdown
+          options={organisePlanetsForRadioGroup()}
+          selectedOption={fromPlanet}
+          setSelectedOption={setFromPlanet}
+          disabledItems={[toPlanet]}
+        />
+        <span className="text-5xl">&rarr;</span>
+        <Dropdown
+          options={organisePlanetsForRadioGroup()}
+          selectedOption={toPlanet}
+          setSelectedOption={setToPlanet}
+          disabledItems={[fromPlanet]}
+          type="secondary"
+        />
+      </section>
       <section>
-        <Screen>
-          <DescriptionList
-            title={`Travel time from ${fromPlanet} to ${toPlanet}`}
-            description={`Around ${new Intl.NumberFormat("en-US").format(
-              getDistanceBetweenAnyTwoPlanets(fromPlanet, toPlanet).KM
-            )} km at about ${selectedSpeed} kilometers per hour`}
-            items={getDescriptionListItems()}
-          />
-        </Screen>
-      </section>
-      <section className="flex gap-3 justify-between">
-        <DashboardGroup>
-          <RadioGroup
-            title="Depart"
-            options={organisePlanetsForRadioGroup(PLANETS_ARRAY)}
-            selectedOption={fromPlanet}
-            setSelectedOption={setFromPlanet}
-            disabledItems={[toPlanet]}
-            baseColor="lime"
-          />
-          <RadioGroup
-            title="Arrive"
-            options={organisePlanetsForRadioGroup(PLANETS_ARRAY)}
-            selectedOption={toPlanet}
-            setSelectedOption={setToPlanet}
-            disabledItems={[fromPlanet]}
-            baseColor="pink"
-          />
-        </DashboardGroup>
-        <DashboardGroup>
-          <RadioGroup
-            title="Travel method"
-            options={organiseTravelSpeedsForRadioGroup()}
-            selectedOption={selectedSpeed}
-            setSelectedOption={setSelectedSpeed}
-            type="digital-muted"
-          />
-        </DashboardGroup>
-      </section>
-      {/* <section>
-        <DashboardGroup>
-          <RadioGroup
-            title="Travel method"
-            options={organiseTravelSpeedsForRadioGroup()}
-            selectedOption={selectedSpeed}
-            setSelectedOption={setSelectedSpeed}
-            type="light-strip"
-          />
-        </DashboardGroup>
-      </section> */}
-
-      <section className="my-10 flex just-between">
-        <div className="flex-1">
-          {<FactList facts={FACTS[getSelectedPlanetsInOrder()[0]]} />}
-        </div>
-      </section>
-      <section className="my-10 flex just-between">
-        <div className="flex-1">
-          {<FactList facts={FACTS[getSelectedPlanetsInOrder()[1]]} />}
-        </div>
+        <Visualiser toPlanet={toPlanet} fromPlanet={fromPlanet} />
       </section>
     </main>
   );
