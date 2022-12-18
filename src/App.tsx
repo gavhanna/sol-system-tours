@@ -4,7 +4,7 @@ import cx from "classnames";
 
 function App() {
   return (
-    <div className={cx("p-5 mx-auto max-w-7xl", styles.app)}>
+    <div className={cx("p-2 mx-auto max-w-7xl", styles.app)}>
       <Home />
     </div>
   );
